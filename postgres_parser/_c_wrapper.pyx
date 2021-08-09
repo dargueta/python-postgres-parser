@@ -51,8 +51,78 @@ cdef object create_python_parse_exception(c_definitions.PgQueryError *err):
     )
 
 
+def parse(query):
+    """Parse SQL and return the AST as serialized JSON.
+
+    This is a wrapper around ``pg_query_parse()``.
+
+    Arguments:
+        query (str): The SQL to parse.
+
+    Returns:
+        str: The AST of the parsed query/ies, as a JSON string.
+    """
+    cdef c_definitions.PgQueryParseResult parse_result
+    cdef char *query_c_string
+
+    query_bytes = query.encode("utf-8")
+    query_c_string = query_bytes
+
+    with nogil:
+        parse_result = c_definitions.pg_query_parse(query_c_string)
+
+    if parse_result.error is not NULL:
+        exception = create_python_parse_exception(parse_result.error)
+        with nogil:
+            c_definitions.pg_query_free_parse_result(parse_result)
+        raise exception
+
+    try:
+        return parse_result.parse_tree.decode("utf-8")
+    finally:
+        # Same issue here, can't use nogil
+        c_definitions.pg_query_free_parse_result(parse_result)
+
+
+def parse_to_dict(query):
+    """A convenience method for :func:`parse` that deserializes the JSON.
+
+    (This is not part of the C API.)
+    """
+    return json.loads(parse(query))
+
+
+def parse_protobuf(query):
+    """Parse SQL and return the AST as a Protobuf message.
+
+    This is a wrapper around ``pg_query_parse_protobuf()``.
+
+    Arguments:
+        query (str): The SQL to parse.
+
+    Returns:
+        postgres_parser.pg_query_pb2.ParseResult: The AST.
+    """
+    raw_data = parse_to_protobuf_bytes(query)
+    result = pg_query_pb2.ParseResult()
+    result.ParseFromString(raw_data)
+    return result
+
+
 def parse_to_protobuf_bytes(query):
-    # type: (str) -> bytes
+    """Parse SQL and return the AST as a *serialized* Protobuf message.
+
+    Equivalent to ``parse_protobuf(...).SerializeToBytes()`` but is faster and uses less
+    memory.
+
+    Arguments:
+        query (str): The SQL to parse.
+
+    Returns:
+        bytes:
+            The serialized Protobuf message of the parsing result. If you want the
+            actual Protobuf object and not its bytes, use :func:`parse_protobuf`.
+    """
     cdef c_definitions.PgQueryProtobufParseResult parse_result
     cdef char *query_c_string
 
@@ -77,40 +147,3 @@ def parse_to_protobuf_bytes(query):
         # Can't do nogil here because of the `finally`
         c_definitions.pg_query_free_protobuf_parse_result(parse_result)
     return return_bytes
-
-
-def parse_to_protobuf(query):
-    # type: (str) -> pg_query_pb2.ParseResult
-    raw_data = parse_to_protobuf_bytes(query)
-    result = pg_query_pb2.ParseResult()
-    result.ParseFromString(raw_data)
-    return result
-
-
-def parse_to_json(query):
-    # type: (str) -> str
-    cdef c_definitions.PgQueryParseResult parse_result
-    cdef char *query_c_string
-
-    query_bytes = query.encode("utf-8")
-    query_c_string = query_bytes
-
-    with nogil:
-        parse_result = c_definitions.pg_query_parse(query_c_string)
-
-    if parse_result.error is not NULL:
-        exception = create_python_parse_exception(parse_result.error)
-        with nogil:
-            c_definitions.pg_query_free_parse_result(parse_result)
-        raise exception
-
-    try:
-        return parse_result.parse_tree.decode("utf-8")
-    finally:
-        # Same issue here, can't use nogil
-        c_definitions.pg_query_free_parse_result(parse_result)
-
-
-def parse_to_dict(query):
-    # type: (str) -> Dict[str, object]
-    return json.loads(parse_to_json(query))

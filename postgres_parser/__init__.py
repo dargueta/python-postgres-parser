@@ -12,9 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from ._c_wrapper import parse
+from ._c_wrapper import parse_protobuf
 from ._c_wrapper import parse_to_dict
-from ._c_wrapper import parse_to_json
-from ._c_wrapper import parse_to_protobuf
 from ._c_wrapper import parse_to_protobuf_bytes
 from ._version import __version__
 from ._version import __version_info__
