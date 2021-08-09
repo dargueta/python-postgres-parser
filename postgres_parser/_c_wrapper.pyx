@@ -51,7 +51,7 @@ cdef object create_python_parse_exception(c_definitions.PgQueryError *err):
     )
 
 
-def parse(query):
+def parse_json(query):
     """Parse SQL and return the AST as serialized JSON.
 
     This is a wrapper around ``pg_query_parse()``.
@@ -84,12 +84,9 @@ def parse(query):
         c_definitions.pg_query_free_parse_result(parse_result)
 
 
-def parse_to_dict(query):
-    """A convenience method for :func:`parse` that deserializes the JSON.
-
-    (This is not part of the C API.)
-    """
-    return json.loads(parse(query))
+def parse(query):
+    """A convenience method for :func:`parse_json` that returns a Python dict."""
+    return json.loads(parse_json(query))
 
 
 def parse_protobuf(query):
@@ -147,3 +144,38 @@ def parse_to_protobuf_bytes(query):
         # Can't do nogil here because of the `finally`
         c_definitions.pg_query_free_protobuf_parse_result(parse_result)
     return return_bytes
+
+
+def fingerprint(query):
+    """Parse SQL and return its signature.
+
+    The returned integer can be used to identify similar queries. For more detailed
+    information on what fingerprinting is and how it works, check out the documentation
+    on libpg_query's
+    `wiki <https://github.com/pganalyze/libpg_query/wiki/Fingerprinting>`.
+
+    Arguments:
+        query (str): The SQL to parse.
+
+    Returns:
+        int: The fingerprint of the SQL passed in.
+    """
+    cdef c_definitions.PgQueryFingerprintResult fingerprint_result
+    cdef char *query_c_string
+
+    query_bytes = query.encode("utf-8")
+    query_c_string = query_bytes
+
+    with nogil:
+        fingerprint_result = c_definitions.pg_query_fingerprint(query_c_string)
+
+    if fingerprint_result.error is not NULL:
+        exception = create_python_parse_exception(fingerprint_result.error)
+        with nogil:
+            c_definitions.pg_query_free_fingerprint_result(fingerprint_result)
+        raise exception
+
+    fingerprint = fingerprint_result.fingerprint
+    with nogil:
+        c_definitions.pg_query_free_fingerprint_result(fingerprint_result)
+    return fingerprint

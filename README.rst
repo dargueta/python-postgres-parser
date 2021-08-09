@@ -11,17 +11,20 @@ Supported Functions
 -------------------
 
 All supported functions are exported directly into the package's namespace. They
-have the same name as the corresponding C function, minus the ``pg_query_``
-prefix. Thus, ``pg_query_parse`` is exported as ``parse``, ``pg_query_parse_protobuf``
-appears as ``parse_protobuf``, and so on.
+generally have the same name as the corresponding C function minus the ``pg_query_``
+prefix. The one exception is that the functions that return JSON have ``_json``
+tacked onto the end, and the form that does *not* have that suffix returns
+deserialized JSON. Thus, ``pg_query_parse`` is exported as ``parse_json`` *and*
+``parse``, with ``parse`` returning a Python dict and ``parse_json`` returning a
+JSON string. Other functions are not renamed.
 
 =========================== ========== =====================================================================
 Function                    Supported? Notes
 --------------------------- ---------- ---------------------------------------------------------------------
 pg_query_deparse_protobuf
-pg_query_fingerprint
+pg_query_fingerprint        ✔
 pg_query_normalize
-pg_query_parse              ✔          Convenience function also provided for getting a dict instead of JSON
+pg_query_parse              ✔          Exposed as ``parse_json`` (JSON string) and ``parse`` (dict)
 pg_query_parse_plpgsql
 pg_query_parse_protobuf     ✔
 pg_query_scan
