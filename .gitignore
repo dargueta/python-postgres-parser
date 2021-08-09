@@ -1,0 +1,11 @@
+*.py[cow]
+*.egg-info
+.tox/
+.mypy_cache/
+.pytest_cache/
+.coverage/
+
+# Build artifacts
+*.c
+*.so
+*.pyd
