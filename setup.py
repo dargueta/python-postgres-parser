@@ -10,7 +10,9 @@ LIBPG_QUERY_ROOT = os.path.join("extern", "libpg_query")
 
 
 C_SOURCE_FILES = [
-    os.path.join("postgres_parser", f) for f in os.listdir("postgres_parser") if f.endswith(".c")
+    os.path.join("postgres_parser", f)
+    for f in os.listdir("postgres_parser")
+    if f.endswith(".c")
 ]
 
 
@@ -29,6 +31,7 @@ class BuildOverride(build_ext.build_ext):
         )
         # Let setuptools do whatever it was going to do.
         return super().run()
+
 
 EXTENSIONS = [
     setuptools.Extension(
