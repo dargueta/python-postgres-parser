@@ -14,7 +14,7 @@
 
 from ._c_wrapper import parse
 from ._c_wrapper import parse_protobuf
-from ._c_wrapper import parse_to_dict
+from ._c_wrapper import parse_json
 from ._c_wrapper import parse_to_protobuf_bytes
 from ._version import __version__
 from ._version import __version_info__
