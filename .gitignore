@@ -12,7 +12,7 @@
 postgres_parser/*.pxd
 postgres_parser/*_pb2.py
 postgres_parser/enums.py
-postgres_parser/_version.py
+postgres_parser/_exported_constants.py
 
 # Build artifacts
 *.c
