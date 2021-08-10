@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from ._c_wrapper import fingerprint
 from ._c_wrapper import parse
 from ._c_wrapper import parse_protobuf
 from ._c_wrapper import parse_json
