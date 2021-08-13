@@ -3,17 +3,11 @@ import subprocess
 
 import setuptools
 from setuptools.command import build_ext
+from Cython.Build import cythonize
 
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-LIBPG_QUERY_ROOT = os.path.join("extern", "libpg_query")
-
-
-C_SOURCE_FILES = [
-    os.path.join("postgres_parser", f)
-    for f in os.listdir("postgres_parser")
-    if f.endswith(".c")
-]
+LIBPG_QUERY_ROOT = os.path.join(HERE, "extern", "libpg_query")
 
 
 class BuildOverride(build_ext.build_ext):
@@ -36,17 +30,17 @@ class BuildOverride(build_ext.build_ext):
 EXTENSIONS = [
     setuptools.Extension(
         "postgres_parser._c_wrapper",
-        sources=C_SOURCE_FILES,
+        sources=[os.path.join(HERE, "postgres_parser", "*.pyx")],
         libraries=["pg_query"],  # The C library we need to link to
         library_dirs=[LIBPG_QUERY_ROOT],  # Where to find that library
         include_dirs=[LIBPG_QUERY_ROOT],  # Path to the header we need
-    )
+    ),
 ]
 
 
 setuptools.setup(
-    ext_modules=EXTENSIONS,
+    ext_modules=cythonize(EXTENSIONS),
     cmdclass={"build_ext": BuildOverride},
     # This shouldn't be necessary -- it's declared in setup.cfg!
-    packages=["postgres_parser"],
+    #packages=["postgres_parser"],
 )

@@ -118,7 +118,7 @@ def parse_to_protobuf_bytes(query):
     Returns:
         bytes:
             The serialized Protobuf message of the parsing result. If you want the
-            actual Protobuf object and not its bytes, use :func:`parse_protobuf`.
+            Protobuf object and not its bytes, use :func:`parse_protobuf`.
     """
     cdef c_definitions.PgQueryProtobufParseResult parse_result
     cdef char *query_c_string
@@ -152,7 +152,7 @@ def fingerprint(query):
     The returned integer can be used to identify similar queries. For more detailed
     information on what fingerprinting is and how it works, check out the documentation
     on libpg_query's
-    `wiki <https://github.com/pganalyze/libpg_query/wiki/Fingerprinting>`.
+    `wiki <https://github.com/pganalyze/libpg_query/wiki/Fingerprinting>`_.
 
     Arguments:
         query (str): The SQL to parse.

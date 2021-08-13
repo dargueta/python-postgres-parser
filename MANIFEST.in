@@ -6,4 +6,4 @@ recursive-include   extern/libpg_query/             *.h Makefile LICENSE
 
 # Our stuff
 recursive-include   build-tools/        *.py *.j2
-recursive-include   postgres_parser/    *.py *.pyi *.pxd *.c py.typed
+recursive-include   postgres_parser/    *.py *.pyi *.pxd *.pyx *.c py.typed
