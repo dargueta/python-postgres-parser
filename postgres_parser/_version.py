@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from __future__ import annotations
+
 from typing import NamedTuple
 from typing import Optional
 
@@ -28,24 +30,21 @@ class VersionInfo(NamedTuple):
     patch: int
     suffix: Optional[str]
 
+    @classmethod
+    def from_string(cls, version: str) -> VersionInfo:
+        parts = _pkgr.parse_version(version)
+        base = parts.base_version  # type: ignore[attr-defined]
+        major, minor, *_possibly_patch = base.split(".")
+        if _possibly_patch:
+            patch = _possibly_patch[0]
+        else:
+            patch = "0"
+
+        suffix = parts.public[len(base) :].lstrip(".")  # type: ignore[attr-defined]
+        return cls(int(major), int(minor), int(patch), suffix or None)
+
     def __str__(self) -> str:
         return "%d.%d.%d%s" % (self.major, self.minor, self.patch, self.suffix or "")
-
-
-def __to_version_info(v: str) -> VersionInfo:
-    parts = _pkgr.parse_version(v)
-    base = parts.base_version  # type: ignore[attr-defined]
-    major, minor, *_possibly_patch = base.split(".")
-    if _possibly_patch:
-        patch = _possibly_patch[0]
-    else:
-        patch = "0"
-    return VersionInfo(
-        int(major),
-        int(minor),
-        int(patch),
-        (parts.public[len(base) :].lstrip(".") or None),  # type: ignore[attr-defined]
-    )
 
 
 # Do not modify directly; use ``bumpversion`` command instead.
@@ -53,7 +52,7 @@ __version__ = "0.1.0"
 
 
 # Don't touch these at all
-__version_info__ = __to_version_info(__version__)
+__version_info__ = VersionInfo.from_string(__version__)
 
 PG_VERSION = VersionInfo(
     major=PG_VERSION_NUM // 10000,

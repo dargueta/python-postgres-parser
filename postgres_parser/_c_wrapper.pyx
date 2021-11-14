@@ -29,6 +29,7 @@ from cpython.bytes cimport PyBytes_FromStringAndSize
 
 
 cdef object create_python_parse_exception(c_definitions.PgQueryError *err):
+    """Create a Python exception object from a Postgres parsing error."""
     cdef str message = err.message.decode("utf-8")
     cdef str funcname = None
     cdef str filename = None
