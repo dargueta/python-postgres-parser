@@ -1,11 +1,12 @@
 bump2version~=1.0
-camel_converter~=1.0
+camel-converter~=1.0
 cython>=3.0.0a9
 header2whatever~=0.4.2
-jinja2>=2.9, <4
-Sphinx>=4.0
-tox-pyenv>=1.0
-tox>=3.3
+jinja2~=3.0
+Sphinx~=4.0
+tox-pyenv
+tox-poetry
+tox~=3.3
 twine
 wheel
 

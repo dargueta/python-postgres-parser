@@ -38,9 +38,15 @@ EXTENSIONS = [
 ]
 
 
-setuptools.setup(
-    ext_modules=cythonize(EXTENSIONS),
-    cmdclass={"build_ext": BuildOverride},
-    # This shouldn't be necessary -- it's declared in setup.cfg!
-    #packages=["postgres_parser"],
-)
+def build(setup_kwargs):
+    setuptools.setup(
+        ext_modules=cythonize(EXTENSIONS),
+        cmdclass={"build_ext": BuildOverride},
+        script_args=["build_ext"],
+        **setup_kwargs,
+    )
+    return setup_kwargs
+
+
+if __name__ == "__main__":
+    build({})

@@ -1,7 +1,79 @@
+[tool.poetry]
+name = "postgres_parser"
+version = "0.1.0"
+description = "Parse Postgres SQL queries into ASTs"
+authors = ["Diego Argueta <620513-dargueta@users.noreply.github.com>"]
+license = "Apache-2.0"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: SQL",
+    "Programming Language :: PL/SQL",
+    "Topic :: Database",
+    "Typing :: Typed",
+]
+keywords = ["postgresql", "postgres", "parser", "sql"]
+include = [
+    "LICENSE.txt",
+    "postgres_parser/py.typed",
+    "*.pyx",
+    "*.c",
+]
+
+[tool.poetry.urls]
+homepage = "https://dargueta.github.io/python-postgres-parser/"
+documentation = "https://dargueta.github.io/python-postgres-parser/"
+repository = "https://dargueta.github.io/python-postgres-parser/"
+"Bug Tracker" = "https://dargueta.github.io/python-postgres-parser/issues"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+protobuf = "^3.16"
+
+[tool.poetry.dev-dependencies]
+# Pin all test dependencies tightly for reproducibility
+black = "21.10b0"
+dpath = "2.0.5"
+flake8 = "4.0.1"
+flake8-black = "0.2.3"
+flake8-blind-except = "0.2.0"
+flake8-bugbear = "21.9.2"
+flake8-comprehensions = "3.7.0"
+flake8-debugger = "4.0.0"
+flake8-docstrings = "1.6.0"
+flake8-implicit-str-concat = "0.2.0"
+flake8-isort = "4.1.1"
+flake8-logging-format = "0.6.0"
+flake8-simplify = "0.14.2"
+isort = "5.10.1"
+mccabe = "0.6.1"
+mypy = "0.910"
+pytest = "6.2.5"
+pytest-cov = "3.0.0"
+pytest-randomly = "3.10.2"
+coverage-pyver-pragma = "0.3.0"
+# Indirect test dependencies, pin loosely
+coverage = "^6"
+pydocstyle = "^6"
+
+[tool.poetry.build]
+generate-setup-file = false
+script = "build.py"
+
 [build-system]
 requires = [
     "cython>=3.0.0a9, <4",
-    "setuptools>=40.9.0",
-    "wheel"
+    "poetry-core>=1.0.0",
+    "setuptools",
+    "wheel",
 ]
-build-backend = "setuptools.build_meta"
+build-backend = "poetry.core.masonry.api"
+
