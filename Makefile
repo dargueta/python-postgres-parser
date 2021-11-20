@@ -77,7 +77,9 @@ publish: distfiles
 	python3 setup.py sdist bdist_wheel
 	twine upload dist/*
 
+poetry.lock: pyproject.toml
+	poetry lock -v --no-update
 
 .PHONY: test
-test: distfiles
+test: distfiles poetry.lock
 	tox

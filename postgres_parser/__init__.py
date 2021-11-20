@@ -24,3 +24,14 @@ from ._version import PG_VERSION
 from ._version import PG_VERSION_NUM
 from .errors import Error
 from .errors import ParseError
+
+
+__all__ = [
+    "fingerprint",
+    "parse",
+    "parse_json",
+    "parse_protobuf",
+    "parse_to_protobuf_bytes",
+    "Error",
+    "ParseError",
+]
