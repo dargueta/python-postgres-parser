@@ -23,8 +23,10 @@ classifiers = [
 keywords = ["postgresql", "postgres", "parser", "sql"]
 include = [
     "LICENSE.txt",
-    "postgres_parser/py.typed",
+    "README.rst",
+    "py.typed",
     "*.pyx",
+    "*.pyi",
     "*.c",
 ]
 
@@ -40,11 +42,10 @@ protobuf = "^3.16"
 
 [tool.poetry.dev-dependencies]
 # Pin all test dependencies tightly for reproducibility
-black = "21.10b0"
+black = "21.11b1"
 dpath = "2.0.5"
 flake8 = "4.0.1"
 flake8-black = "0.2.3"
-flake8-blind-except = "0.2.0"
 flake8-bugbear = "21.9.2"
 flake8-comprehensions = "3.7.0"
 flake8-debugger = "4.0.0"
