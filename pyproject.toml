@@ -14,6 +14,7 @@ classifiers = [
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: SQL",
     "Programming Language :: PL/SQL",
@@ -38,29 +39,28 @@ repository = "https://dargueta.github.io/python-postgres-parser/"
 
 [tool.poetry.dependencies]
 python = "^3.7"
-protobuf = "^3.16"
+protobuf = "^4"
 
 [tool.poetry.dev-dependencies]
 # Pin all test dependencies tightly for reproducibility
-black = "21.11b1"
-dpath = "2.0.5"
-flake8 = "4.0.1"
-flake8-black = "0.2.3"
-flake8-bugbear = "21.9.2"
-flake8-comprehensions = "3.7.0"
-flake8-debugger = "4.0.0"
+black = "22.8.0"
+dpath = "2.0.6"
+flake8 = "5.0.4"
+flake8-black = "0.3.3"
+flake8-bugbear = "22.9.11"
+flake8-comprehensions = "3.10.0"
+flake8-debugger = "4.1.2"
 flake8-docstrings = "1.6.0"
-flake8-implicit-str-concat = "0.2.0"
-flake8-isort = "4.1.1"
-flake8-logging-format = "0.6.0"
-flake8-simplify = "0.14.2"
+flake8-implicit-str-concat = "0.3.0"
+flake8-isort = "4.2.0"
+flake8-logging-format = "0.7.5"
+flake8-simplify = "0.19.3"
 isort = "5.10.1"
-mccabe = "0.6.1"
-mypy = "0.910"
-pytest = "6.2.5"
+mypy = "0.971"
+pytest = "7.1.3"
 pytest-cov = "3.0.0"
-pytest-randomly = "3.10.2"
-coverage-pyver-pragma = "0.3.0"
+pytest-randomly = "3.12.0"
+coverage-pyver-pragma = "0.3.1"
 # Indirect test dependencies, pin loosely
 coverage = "^6"
 pydocstyle = "^6"
