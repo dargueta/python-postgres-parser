@@ -10,11 +10,9 @@ classifiers = [
     "License :: OSI Approved :: Apache Software License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: SQL",
     "Programming Language :: PL/SQL",
@@ -29,6 +27,8 @@ include = [
     "*.pyx",
     "*.pyi",
     "*.c",
+    "postgres_parser/**/*.so",
+    "postgres_parser/**/*.dll",
 ]
 
 [tool.poetry.urls]
@@ -38,7 +38,7 @@ repository = "https://dargueta.github.io/python-postgres-parser/"
 "Bug Tracker" = "https://dargueta.github.io/python-postgres-parser/issues"
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.10"
 protobuf = "^4"
 
 [tool.poetry.dev-dependencies]

@@ -20,3 +20,10 @@ postgres_parser/_exported_constants.py
 *.so
 *.pyd
 build/
+
+# Installation artifacts
+pip-build*/
+pip-ephem*/
+pip-install*/
+pip-unpack*/
+*.pem
