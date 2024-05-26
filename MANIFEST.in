@@ -1,9 +1,0 @@
-# Their stuff
-recursive-include   extern/libpg_query/src/         *.c *.h
-recursive-include   extern/libpg_query/vendor/      *.c *.h
-recursive-include   extern/libpg_query/protobuf/    *.c *.h *.proto
-recursive-include   extern/libpg_query/             *.h Makefile LICENSE
-
-# Our stuff
-recursive-include   build-tools/        *.py *.j2
-recursive-include   postgres_parser/    *.py *.pyi *.pxd *.pyx *.c py.typed
